@@ -12,7 +12,7 @@ import * as Linking from "expo-linking";
 import { openAuthSessionAsync } from "expo-web-browser";
 
 export const config = {
-  platform: "com.jsm.restate",
+  platform: "com.sahilhasnain.restate",
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
   databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
@@ -22,8 +22,9 @@ export const config = {
   agentsCollectionId: process.env.EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID,
   propertiesCollectionId:
     process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
-  bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID,
 };
+
+console.log("Appwrite Config:", config);
 
 export const client = new Client();
 client

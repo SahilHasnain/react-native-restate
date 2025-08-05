@@ -58,7 +58,7 @@ const Explore = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           loading ? (
-            <ActivityIndicator size="large" className="text-primary-300 mt-5" />
+            <ActivityIndicator size="large" className="mt-5 text-primary-300" />
           ) : (
             <NoResults />
           )
@@ -68,12 +68,12 @@ const Explore = () => {
             <View className="flex flex-row items-center justify-between mt-5">
               <TouchableOpacity
                 onPress={() => router.back()}
-                className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center"
+                className="flex flex-row items-center justify-center rounded-full bg-primary-200 size-11"
               >
                 <Image source={icons.backArrow} className="size-5" />
               </TouchableOpacity>
 
-              <Text className="text-base mr-2 text-center font-rubik-medium text-black-300">
+              <Text className="mr-2 text-base text-center font-rubik-medium text-black-300">
                 Search for Your Ideal Home
               </Text>
               <Image source={icons.bell} className="w-6 h-6" />
@@ -84,7 +84,7 @@ const Explore = () => {
             <View className="mt-5">
               <Filters />
 
-              <Text className="text-xl font-rubik-bold text-black-300 mt-5">
+              <Text className="mt-5 text-xl font-rubik-bold text-black-300">
                 Found {properties?.length} Properties
               </Text>
             </View>

@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Button,
   FlatList,
   Image,
   Text,
@@ -20,6 +21,7 @@ import { Card, FeaturedCard } from "@/components/Cards";
 import { useAppwrite } from "@/lib/useAppwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { getLatestProperties, getProperties } from "@/lib/appwrite";
+import seed from "@/lib/seed";
 
 const Home = () => {
   const { user } = useGlobalContext();
@@ -69,7 +71,7 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           loading ? (
-            <ActivityIndicator size="large" className="text-primary-300 mt-5" />
+            <ActivityIndicator size="large" className="mt-5 text-primary-300" />
           ) : (
             <NoResults />
           )
@@ -80,10 +82,10 @@ const Home = () => {
               <View className="flex flex-row">
                 <Image
                   source={{ uri: user?.avatar }}
-                  className="size-12 rounded-full"
+                  className="rounded-full size-12"
                 />
 
-                <View className="flex flex-col items-start ml-2 justify-center">
+                <View className="flex flex-col items-start justify-center ml-2">
                   <Text className="text-xs font-rubik text-black-100">
                     Good Morning
                   </Text>

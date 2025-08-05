@@ -30,10 +30,11 @@ const Auth = () => {
   };
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="h-full bg-white">
       <ScrollView
         contentContainerStyle={{
           height: "100%",
+          paddingBottom: 80
         }}
       >
         <Image
@@ -47,18 +48,18 @@ const Auth = () => {
             Welcome To Real Scout
           </Text>
 
-          <Text className="text-3xl font-rubik-bold text-black-300 text-center mt-2">
+          <Text className="mt-2 text-3xl text-center font-rubik-bold text-black-300">
             Let's Get You Closer To {"\n"}
             <Text className="text-primary-300">Your Ideal Home</Text>
           </Text>
 
-          <Text className="text-lg font-rubik text-black-200 text-center mt-12">
+          <Text className="mt-12 text-lg text-center font-rubik text-black-200">
             Login to Real Scout with Google
           </Text>
 
           <TouchableOpacity
             onPress={handleLogin}
-            className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5"
+            className="w-full py-4 mt-5 bg-white rounded-full shadow-md shadow-zinc-300"
           >
             <View className="flex flex-row items-center justify-center">
               <Image
@@ -66,7 +67,7 @@ const Auth = () => {
                 className="w-5 h-5"
                 resizeMode="contain"
               />
-              <Text className="text-lg font-rubik-medium text-black-300 ml-2">
+              <Text className="ml-2 text-lg font-rubik-medium text-black-300">
                 Continue with Google
               </Text>
             </View>
