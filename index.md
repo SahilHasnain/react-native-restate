@@ -138,6 +138,96 @@ Then reference them in scripts or in CI workflows.
 
 ---
 
+## 9. Common Issues & Solutions
+
+### Hooks Order Error
+
+**Error**: "Rendered more hooks than during previous render."
+**Cause**: Conditionally calling hooks after an early return.
+**Fix**: Always call hooks (e.g. `useSegments`) before any return statements to keep the call order consistent.
+
+### Splash Screen Confusion
+
+- **Native Splash**: Shown automatically before JS loads. Configure in `app.json`:
+  ```json
+  "expo": {
+    "splash": {"image":"./assets/splash.png","resizeMode":"contain","backgroundColor":"#fff"}
+  }
+  ```
+- **Custom Splash**: In-app splash (e.g. while loading fonts) in your code using state (e.g. `fontsLoaded`).
+
+### Conditional Developer Credits
+
+Use Expo Router’s `useSegments()` in `_layout.tsx`:
+
+```ts
+const segments = useSegments();
+const showCredit = segments[0] === "sign-in";
+// render credit only when showCredit is true
+```
+
+### Environment Variables in EAS
+
+- **EXPO*PUBLIC*** variables are inlined automatically on client.
+- Define secrets in **each** profile of `eas.json` under `build.[profile].env` or via EAS Dashboard.
+- To read at runtime, use Expo Config: in `app.config.js`:
+  ```js
+  export default ({ config }) => ({
+    ...config,
+    extra: {
+      apiUrl: process.env.EXPO_PUBLIC_API_URL,
+    },
+  });
+  ```
+  Then `import Constants from 'expo-constants';` and `Constants.expoConfig.extra.apiUrl`.
+
+### Keystore & keytool Errors
+
+- **keytool not found**: Install Java JDK (with keytool) via `winget install --id Microsoft.OpenJDK.17` or MSI installer.
+- **EAS cloud keystore 500**: Generate keystore locally:
+  ```powershell
+  keytool -genkeypair -storetype PKCS12 -alias app_alias -keystore my-release-key.jks \
+    -storepass <STORE_PASS> -keypass <KEY_PASS> -dname "CN=Org,OU=Dev,O=Org,L=City,S=State,C=IN"
+  ```
+  Then upload with:
+  ```bash
+  eas credentials -p android --upload-keystore --keystore-path my-release-key.jks \
+    --keystore-password $STORE_PASS --key-alias app_alias --key-password $KEY_PASS
+  ```
+
+---
+
+## 10. Doubts & Answers
+
+**Q: How do EAS builds pick up my `.env` values?**  
+A: Expo only inlines `EXPO_PUBLIC_` vars from `eas.json` (per profile) or the EAS Dashboard. Plain `.env` files are _not_ uploaded. To access at runtime, inject into `app.config.js` and read via `Constants.expoConfig.extra`.
+
+**Q: What is `-dname` in the `keytool` command?**  
+A: `-dname` specifies the certificate's _Distinguished Name_, a comma-separated string (CN=Common Name, OU=Org Unit, O=Org, L=Locality, S=State, C=Country) embedded in the self-signed cert.
+
+**Q: Where do I get `storepass` and `keypass`?**  
+A: You choose them when running `keytool -genkeypair`: the values after `-storepass` and `-keypass` are your passwords. Store them in a secure `.env` (ignored by Git) or CI secret.
+
+**Q: What is the keystore alias?**  
+A: Alias is the _name_ of the key inside your `.jks` or `.p12`. You set it via `-alias app_alias`. During EAS upload, supply the same alias so Expo knows which key to use.
+
+**Q: Why did I see a "Rendered more hooks than during previous render" error?**  
+A: You called hooks (e.g. `useSegments`) _after_ an early return (`if (!fontsLoaded) return null`). Always call hooks in the same order at the top of your component.
+
+**Q: Native vs. custom splash screen—what’s the difference?**  
+A: _Native splash_ is configured in `app.json` and shows before JS loads. _Custom splash_ (e.g. while `fontsLoaded`) is rendered in React code (in `_layout.tsx`). Use both for smooth UX.
+
+**Q: I got "No environment variables with visibility ... found"—is that an error?**  
+A: No. That message means you haven’t set any _EAS Dashboard_ secrets for that profile. If your `eas.json` profile has `env`, those vars still load correctly.
+
+**Q: Why didn’t I get a download link after running `eas build`?**  
+A: The link appears only once the remote build finishes. Use `--wait` with your command or check `eas build:list` / the Expo dashboard to see and grab the URL.
+
+**Q: Why is my APK so large?**  
+A: Common causes are bundling all of `assets/` (`
+
+---
+
 # Enjoy your builds!
 
 Keep this file handy so you never have to hunt instructions again.
