@@ -118,6 +118,20 @@ eas build -p android --profile preview
 eas build -p ios --profile preview
 ```
 
+To inspect build artifacts and sizes, use the required flags:
+
+```bash
+# First, get your build ID:
+eas build:list --profile preview --platform android
+# Then inspect with platform, build ID, and output folder:
+eas build:inspect \
+  --platform android \
+  --build-id YOUR_BUILD_ID \
+  --output ./inspect-output
+```
+
+Replace `YOUR_BUILD_ID` with the ID shown in `eas build:list`. Output will go into `./inspect-output` for per-folder size analysis.
+
 After each build finishes, Expo will print a URL. Share the Android APK link directly with Android users. For iOS:
 
 - **TestFlight**: Expo can upload to App Store Connect for internal testing. Invite testers via TestFlight.

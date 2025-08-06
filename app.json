@@ -4,7 +4,7 @@
     "slug": "restate",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/new-york.png",
+    "icon": "./assets/images/real-estate.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/new-york.png",
+        "foregroundImage": "./assets/images/restate-splash.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.sahilhasnain.restate"
@@ -25,14 +25,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/new-york.png"
+      "favicon": "./assets/images/real-estate.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/japan.png",
+          "image": "./assets/images/restate-splash.png",
           "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "enableFullScreenImage_legacy": true

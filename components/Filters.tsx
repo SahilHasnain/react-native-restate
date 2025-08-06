@@ -7,7 +7,7 @@ import { categories } from "@/constants/data";
 const Filters = () => {
   const params = useLocalSearchParams<{ filter?: string }>();
   const [selectedCategory, setSelectedCategory] = useState(
-    params.filter || "All"
+    params.filter || "All",
   );
 
   const handleCategoryPress = (category: string) => {

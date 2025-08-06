@@ -34,7 +34,7 @@ const Auth = () => {
       <ScrollView
         contentContainerStyle={{
           height: "100%",
-          paddingBottom: 80
+          paddingBottom: 80,
         }}
       >
         <Image

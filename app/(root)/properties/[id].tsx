@@ -44,19 +44,19 @@ const Property = () => {
           />
           <Image
             source={images.whiteGradient}
-            className="absolute top-0 w-full z-40"
+            className="absolute top-0 z-40 w-full"
           />
 
           <View
-            className="z-50 absolute inset-x-7"
+            className="absolute z-50 inset-x-7"
             style={{
               top: Platform.OS === "ios" ? 70 : 20,
             }}
           >
-            <View className="flex flex-row items-center w-full justify-between">
+            <View className="flex flex-row items-center justify-between w-full">
               <TouchableOpacity
                 onPress={() => router.back()}
-                className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center"
+                className="flex flex-row items-center justify-center rounded-full bg-primary-200 size-11"
               >
                 <Image source={icons.backArrow} className="size-5" />
               </TouchableOpacity>
@@ -73,13 +73,13 @@ const Property = () => {
           </View>
         </View>
 
-        <View className="px-5 mt-7 flex gap-2">
+        <View className="flex gap-2 px-5 mt-7">
           <Text className="text-2xl font-rubik-extrabold">
             {property?.name}
           </Text>
 
           <View className="flex flex-row items-center gap-3">
-            <View className="flex flex-row items-center px-4 py-2 bg-primary-100 rounded-full">
+            <View className="flex flex-row items-center px-4 py-2 rounded-full bg-primary-100">
               <Text className="text-xs font-rubik-bold text-primary-300">
                 {property?.type}
               </Text>
@@ -87,35 +87,35 @@ const Property = () => {
 
             <View className="flex flex-row items-center gap-2">
               <Image source={icons.star} className="size-5" />
-              <Text className="text-black-200 text-sm mt-1 font-rubik-medium">
+              <Text className="mt-1 text-sm text-black-200 font-rubik-medium">
                 {property?.rating} ({property?.reviews.length} reviews)
               </Text>
             </View>
           </View>
 
           <View className="flex flex-row items-center mt-5">
-            <View className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10">
+            <View className="flex flex-row items-center justify-center rounded-full bg-primary-100 size-10">
               <Image source={icons.bed} className="size-4" />
             </View>
-            <Text className="text-black-300 text-sm font-rubik-medium ml-2">
+            <Text className="ml-2 text-sm text-black-300 font-rubik-medium">
               {property?.bedrooms} Beds
             </Text>
-            <View className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10 ml-7">
+            <View className="flex flex-row items-center justify-center rounded-full bg-primary-100 size-10 ml-7">
               <Image source={icons.bath} className="size-4" />
             </View>
-            <Text className="text-black-300 text-sm font-rubik-medium ml-2">
+            <Text className="ml-2 text-sm text-black-300 font-rubik-medium">
               {property?.bathrooms} Baths
             </Text>
-            <View className="flex flex-row items-center justify-center bg-primary-100 rounded-full size-10 ml-7">
+            <View className="flex flex-row items-center justify-center rounded-full bg-primary-100 size-10 ml-7">
               <Image source={icons.area} className="size-4" />
             </View>
-            <Text className="text-black-300 text-sm font-rubik-medium ml-2">
+            <Text className="ml-2 text-sm text-black-300 font-rubik-medium">
               {property?.area} sqft
             </Text>
           </View>
 
-          <View className="w-full border-t border-primary-200 pt-7 mt-5">
-            <Text className="text-black-300 text-xl font-rubik-bold">
+          <View className="w-full mt-5 border-t border-primary-200 pt-7">
+            <Text className="text-xl text-black-300 font-rubik-bold">
               Agent
             </Text>
 
@@ -123,7 +123,7 @@ const Property = () => {
               <View className="flex flex-row items-center">
                 <Image
                   source={{ uri: property?.agent.avatar }}
-                  className="size-14 rounded-full"
+                  className="rounded-full size-14"
                 />
 
                 <View className="flex flex-col items-start justify-center ml-3">
@@ -144,32 +144,32 @@ const Property = () => {
           </View>
 
           <View className="mt-7">
-            <Text className="text-black-300 text-xl font-rubik-bold">
+            <Text className="text-xl text-black-300 font-rubik-bold">
               Overview
             </Text>
-            <Text className="text-black-200 text-base font-rubik mt-2">
+            <Text className="mt-2 text-base text-black-200 font-rubik">
               {property?.description}
             </Text>
           </View>
 
           <View className="mt-7">
-            <Text className="text-black-300 text-xl font-rubik-bold">
+            <Text className="text-xl text-black-300 font-rubik-bold">
               Facilities
             </Text>
 
             {property?.facilities.length > 0 && (
-              <View className="flex flex-row flex-wrap items-start justify-start mt-2 gap-5">
+              <View className="flex flex-row flex-wrap items-start justify-start gap-5 mt-2">
                 {property?.facilities.map((item: string, index: number) => {
                   const facility = facilities.find(
-                    (facility) => facility.title === item
+                    (facility) => facility.title === item,
                   );
 
                   return (
                     <View
                       key={index}
-                      className="flex flex-1 flex-col items-center min-w-16 max-w-20"
+                      className="flex flex-col items-center flex-1 min-w-16 max-w-20"
                     >
-                      <View className="size-14 bg-primary-100 rounded-full flex items-center justify-center">
+                      <View className="flex items-center justify-center rounded-full size-14 bg-primary-100">
                         <Image
                           source={facility ? facility.icon : icons.info}
                           className="size-6"
@@ -192,7 +192,7 @@ const Property = () => {
 
           {property?.gallery.length > 0 && (
             <View className="mt-7">
-              <Text className="text-black-300 text-xl font-rubik-bold">
+              <Text className="text-xl text-black-300 font-rubik-bold">
                 Gallery
               </Text>
               <FlatList
@@ -213,19 +213,19 @@ const Property = () => {
           )}
 
           <View className="mt-7">
-            <Text className="text-black-300 text-xl font-rubik-bold">
+            <Text className="text-xl text-black-300 font-rubik-bold">
               Location
             </Text>
-            <View className="flex flex-row items-center justify-start mt-4 gap-2">
+            <View className="flex flex-row items-center justify-start gap-2 mt-4">
               <Image source={icons.location} className="w-7 h-7" />
-              <Text className="text-black-200 text-sm font-rubik-medium">
+              <Text className="text-sm text-black-200 font-rubik-medium">
                 {property?.address}
               </Text>
             </View>
 
             <Image
               source={images.map}
-              className="h-52 w-full mt-5 rounded-xl"
+              className="w-full mt-5 h-52 rounded-xl"
             />
           </View>
 
@@ -234,13 +234,13 @@ const Property = () => {
               <View className="flex flex-row items-center justify-between">
                 <View className="flex flex-row items-center">
                   <Image source={icons.star} className="size-6" />
-                  <Text className="text-black-300 text-xl font-rubik-bold ml-2">
+                  <Text className="ml-2 text-xl text-black-300 font-rubik-bold">
                     {property?.rating} ({property?.reviews.length} reviews)
                   </Text>
                 </View>
 
                 <TouchableOpacity>
-                  <Text className="text-primary-300 text-base font-rubik-bold">
+                  <Text className="text-base text-primary-300 font-rubik-bold">
                     View All
                   </Text>
                 </TouchableOpacity>
@@ -254,22 +254,22 @@ const Property = () => {
         </View>
       </ScrollView>
 
-      <View className="absolute bg-white bottom-0 w-full rounded-t-2xl border-t border-r border-l border-primary-200 p-7">
+      <View className="absolute bottom-0 w-full bg-white border-t border-l border-r rounded-t-2xl border-primary-200 p-7">
         <View className="flex flex-row items-center justify-between gap-10">
           <View className="flex flex-col items-start">
-            <Text className="text-black-200 text-xs font-rubik-medium">
+            <Text className="text-xs text-black-200 font-rubik-medium">
               Price
             </Text>
             <Text
               numberOfLines={1}
-              className="text-primary-300 text-start text-2xl font-rubik-bold"
+              className="text-2xl text-primary-300 text-start font-rubik-bold"
             >
               ${property?.price}
             </Text>
           </View>
 
-          <TouchableOpacity className="flex-1 flex flex-row items-center justify-center bg-primary-300 py-3 rounded-full shadow-md shadow-zinc-400">
-            <Text className="text-white text-lg text-center font-rubik-bold">
+          <TouchableOpacity className="flex flex-row items-center justify-center flex-1 py-3 rounded-full shadow-md bg-primary-300 shadow-zinc-400">
+            <Text className="text-lg text-center text-white font-rubik-bold">
               Book Now
             </Text>
           </TouchableOpacity>

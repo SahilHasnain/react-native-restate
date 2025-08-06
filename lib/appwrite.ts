@@ -43,13 +43,13 @@ export async function login() {
 
     const response = await account.createOAuth2Token(
       OAuthProvider.Google,
-      redirectUri
+      redirectUri,
     );
     if (!response) throw new Error("Create OAuth2 token failed");
 
     const browserResult = await openAuthSessionAsync(
       response.toString(),
-      redirectUri
+      redirectUri,
     );
     if (browserResult.type !== "success")
       throw new Error("Create OAuth2 token failed");
@@ -103,7 +103,7 @@ export async function getLatestProperties() {
     const result = await databases.listDocuments(
       config.databaseId!,
       config.propertiesCollectionId!,
-      [Query.orderAsc("$createdAt"), Query.limit(5)]
+      [Query.orderAsc("$createdAt"), Query.limit(5)],
     );
 
     return result.documents;
@@ -134,7 +134,7 @@ export async function getProperties({
           Query.search("name", query),
           Query.search("address", query),
           Query.search("type", query),
-        ])
+        ]),
       );
 
     if (limit) buildQuery.push(Query.limit(limit));
@@ -142,7 +142,7 @@ export async function getProperties({
     const result = await databases.listDocuments(
       config.databaseId!,
       config.propertiesCollectionId!,
-      buildQuery
+      buildQuery,
     );
 
     return result.documents;
@@ -158,7 +158,7 @@ export async function getPropertyById({ id }: { id: string }) {
     const result = await databases.getDocument(
       config.databaseId!,
       config.propertiesCollectionId!,
-      id
+      id,
     );
     return result;
   } catch (error) {

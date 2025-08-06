@@ -34,20 +34,17 @@ export default function RootLayout() {
         style={{
           flex: 1,
           backgroundColor: "#fff",
-          alignItems: "center",
         }}
       >
         <Image
-          source={require("../assets/images/japan.png")}
+          source={require("../assets/images/restate-splash.png")}
           style={{
-            width: "100%", // Set width to full
-            height: 500,
+            flex: 1,
+            width: undefined, // Set explicit width
+            height: undefined, // Set explicit height
             resizeMode: "cover",
           }}
         />
-        <View style={styles.creditContainer}>
-          <Text style={styles.creditText}>Developed by Ubaid Raza</Text>
-        </View>
       </View>
     );
   }
