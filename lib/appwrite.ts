@@ -8,8 +8,9 @@ import {
   Query,
   Storage,
 } from "react-native-appwrite";
-import * as Linking from "expo-linking";
-import { openAuthSessionAsync } from "expo-web-browser";
+import * as WebBrowser from "expo-web-browser";
+import { makeRedirectUri } from "expo-auth-session";
+
 
 export const config = {
   platform: "com.sahilhasnain.restate",
@@ -37,34 +38,43 @@ export const account = new Account(client);
 export const databases = new Databases(client);
 export const storage = new Storage(client);
 
+const redirectUri = makeRedirectUri({
+  preferLocalhost: true, // automatically handles dev/prod
+});
+
 export async function login() {
   try {
-    const redirectUri = Linking.createURL("/");
-
+    // Step 1: Create OAuth2 token link
     const response = await account.createOAuth2Token(
       OAuthProvider.Google,
       redirectUri,
+      redirectUri
     );
-    if (!response) throw new Error("Create OAuth2 token failed");
 
-    const browserResult = await openAuthSessionAsync(
+    if (!response) throw new Error("Failed to generate login URL");
+
+    // Step 2: Open browser with login URL
+    const browserResult = await WebBrowser.openAuthSessionAsync(
       response.toString(),
-      redirectUri,
+      redirectUri
     );
-    if (browserResult.type !== "success")
-      throw new Error("Create OAuth2 token failed");
 
+    if (browserResult.type !== "success") throw new Error("Login cancelled");
+
+    // Step 3: Extract token from redirect URL
     const url = new URL(browserResult.url);
-    const secret = url.searchParams.get("secret")?.toString();
-    const userId = url.searchParams.get("userId")?.toString();
-    if (!secret || !userId) throw new Error("Create OAuth2 token failed");
+    const secret = url.searchParams.get("secret");
+    const userId = url.searchParams.get("userId");
 
+    if (!secret || !userId) throw new Error("Missing auth parameters");
+
+    // Step 4: Create session using secret + userId
     const session = await account.createSession(userId, secret);
     if (!session) throw new Error("Failed to create session");
 
     return true;
   } catch (error) {
-    console.error(error);
+    console.error("OAuth Login Error:", error);
     return false;
   }
 }
@@ -103,7 +113,7 @@ export async function getLatestProperties() {
     const result = await databases.listDocuments(
       config.databaseId!,
       config.propertiesCollectionId!,
-      [Query.orderAsc("$createdAt"), Query.limit(5)],
+      [Query.orderAsc("$createdAt"), Query.limit(5)]
     );
 
     return result.documents;
@@ -128,23 +138,27 @@ export async function getProperties({
     if (filter && filter !== "All")
       buildQuery.push(Query.equal("type", filter));
 
+      console.log("query", query)
     if (query)
       buildQuery.push(
         Query.or([
           Query.search("name", query),
           Query.search("address", query),
           Query.search("type", query),
-        ]),
+        ])
       );
 
+      console.log("limit", limit)
     if (limit) buildQuery.push(Query.limit(limit));
+    console.log("Query:", buildQuery);
 
     const result = await databases.listDocuments(
       config.databaseId!,
       config.propertiesCollectionId!,
-      buildQuery,
+      buildQuery
     );
 
+    console.log("Properties fetched:", result.documents.length);
     return result.documents;
   } catch (error) {
     console.error(error);
@@ -158,7 +172,7 @@ export async function getPropertyById({ id }: { id: string }) {
     const result = await databases.getDocument(
       config.databaseId!,
       config.propertiesCollectionId!,
-      id,
+      id
     );
     return result;
   } catch (error) {

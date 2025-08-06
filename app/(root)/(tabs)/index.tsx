@@ -46,6 +46,7 @@ const Home = () => {
     },
     skip: true,
   });
+  console.log("Properties:", properties?.length)
 
   useEffect(() => {
     refetch({

@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/real-estate.png",
-    "scheme": "myapp",
+    "scheme": "appwrite-callback-5125efb6-cac3-44b4-9eab-19673417f8dc",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/restate-splash.png",
+        "foregroundImage": "./assets/images/real-estate.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.sahilhasnain.restate"
