@@ -11,7 +11,6 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import { makeRedirectUri } from "expo-auth-session";
 
-
 export const config = {
   platform: "com.sahilhasnain.restate",
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
@@ -38,40 +37,38 @@ export const account = new Account(client);
 export const databases = new Databases(client);
 export const storage = new Storage(client);
 
-const redirectUri = makeRedirectUri({
-  preferLocalhost: true, // automatically handles dev/prod
-});
-
 export async function login() {
   try {
-    // Step 1: Create OAuth2 token link
-    const response = await account.createOAuth2Token(
+    const scheme = "appwrite-callback-5125efb6-cac3-44b4-9eab-19673417f8dc";
+
+    const redirectUri = makeRedirectUri({
+      scheme,
+      preferLocalhost: true,
+    });
+
+    const loginUrl = await account.createOAuth2Token(
       OAuthProvider.Google,
       redirectUri,
       redirectUri
     );
+    if (!loginUrl) throw new Error("Failed to generate login URL");
 
-    if (!response) throw new Error("Failed to generate login URL");
-
-    // Step 2: Open browser with login URL
-    const browserResult = await WebBrowser.openAuthSessionAsync(
-      response.toString(),
-      redirectUri
+    const origin = new URL(redirectUri).origin + "/";
+    const result = await WebBrowser.openAuthSessionAsync(
+      loginUrl.toString(),
+      origin
     );
 
-    if (browserResult.type !== "success") throw new Error("Login cancelled");
+    if (result.type !== "success" || !result.url) {
+      throw new Error("Login cancelled or failed");
+    }
 
-    // Step 3: Extract token from redirect URL
-    const url = new URL(browserResult.url);
-    const secret = url.searchParams.get("secret");
-    const userId = url.searchParams.get("userId");
+    const responseUrl = new URL(result.url);
+    const secret = responseUrl.searchParams.get("secret");
+    const userId = responseUrl.searchParams.get("userId");
+    if (!secret || !userId) throw new Error("Missing auth params");
 
-    if (!secret || !userId) throw new Error("Missing auth parameters");
-
-    // Step 4: Create session using secret + userId
-    const session = await account.createSession(userId, secret);
-    if (!session) throw new Error("Failed to create session");
-
+    await account.createSession(userId, secret);
     return true;
   } catch (error) {
     console.error("OAuth Login Error:", error);
@@ -138,7 +135,7 @@ export async function getProperties({
     if (filter && filter !== "All")
       buildQuery.push(Query.equal("type", filter));
 
-      console.log("query", query)
+    console.log("query", query);
     if (query)
       buildQuery.push(
         Query.or([
@@ -148,7 +145,7 @@ export async function getProperties({
         ])
       );
 
-      console.log("limit", limit)
+    console.log("limit", limit);
     if (limit) buildQuery.push(Query.limit(limit));
     console.log("Query:", buildQuery);
 
