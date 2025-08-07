@@ -27,17 +27,13 @@
       "output": "static",
       "favicon": "./assets/images/real-estate.png"
     },
+    "splash": {
+      "image": "./assets/images/restate-splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/restate-splash.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff",
-          "enableFullScreenImage_legacy": true
-        }
-      ],
       [
         "expo-font",
         {
